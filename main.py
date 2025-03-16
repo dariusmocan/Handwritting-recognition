@@ -24,7 +24,7 @@ x_test = tf.keras.utils.normalize(x_test, axis=1)
 #               loss='sparse_categorical_crossentropy',
 #               metrics=['accuracy'])
 
-# model.fit(x_train, y_train, epochs=5)
+# model.fit(x_train, y_train, epochs=10)
 
 # model.save('handwritten.keras')
 
@@ -58,12 +58,19 @@ while os.path.isfile(f"digits/digit{image_number}.png"):
 
 
 #am testat cum functioneaza pe imagine alb pe negru
+img_nr = 1
 
-img = cv2.imread("digits/white1.png",cv2.IMREAD_GRAYSCALE)
-img= cv2.resize(img, (28, 28))
-img = img/255.0
-img = np.array([img])
-plt.imshow(img[0], cmap="gray")
-prediction = model.predict(img)
-print(f"The number is probably: {np.argmax(prediction)}")
-plt.show()
+while os.path.isfile(f"digits/white{img_nr}.png"):
+    try:
+        img = cv2.imread(f"digits/white{img_nr}.png",cv2.IMREAD_GRAYSCALE)
+        img= cv2.resize(img, (28, 28))
+        img = img/255.0
+        img = np.array([img])
+        plt.imshow(img[0], cmap="gray")
+        prediction = model.predict(img)
+        print(f"The number is probably: {np.argmax(prediction)}")
+        plt.show()
+    except Exception as e:
+        print(e)
+    finally:
+        img_nr += 1
